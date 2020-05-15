@@ -1,0 +1,5 @@
+rootProject.name='Chapter08_Practice'
+include ':app'
+include ':practice01_permission'
+include ':practice01_internalfileinputoutput'
+include ':practice02_practice8-1'
