@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.practice02_practice8_1"
+        applicationId "com.example.practice04_rawfolder"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1

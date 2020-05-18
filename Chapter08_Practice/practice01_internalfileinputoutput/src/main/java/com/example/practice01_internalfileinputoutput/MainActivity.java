@@ -24,19 +24,23 @@ import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
+    //region 참조변수 선언
     Button btnRead, btnWrite;
     EditText editText;
     TextView textView;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
+        //region 참조변수 객체 연결
         btnRead = findViewById(R.id.btnRead);
         btnWrite = findViewById(R.id.btnWrite);
         editText = findViewById(R.id.editText);
         textView = findViewById(R.id.textView);
+        //endregion
 
         //region 내장 메모리 파일 입출력 처리1 (FileOutputStream, FileInputStream)
         // 파일에서 바이트 단위로 읽는 기반 스트림

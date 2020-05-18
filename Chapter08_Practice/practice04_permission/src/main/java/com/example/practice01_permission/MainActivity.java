@@ -2,6 +2,7 @@ package com.example.practice01_permission;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -52,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     // 권한 체크 메소드
     private void checkPermission(){
         // permissionList의 권한의 허용 여부 체크
-        requestPermissions(permissionList, 200);
+        ActivityCompat.requestPermissions(this, permissionList, 0);
+//        requestPermissions(permissionList, 0);
     }
 
     // 권한 허용 여부가 완료되면 호출되는 메소드(권한들의 허용 여부 체크)
@@ -60,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode==200 && grantResults.length>0){
+        if(requestCode==0 && grantResults.length>0){
 
-            String strGrantedList=null, strDeniedList=null;
+            String strGrantedList="", strDeniedList="";
             for(int i=0; i<permissions.length; i++){
                 if(grantResults[i] == PackageManager.PERMISSION_GRANTED){
                     strGrantedList += permissions[i]+'\n';
