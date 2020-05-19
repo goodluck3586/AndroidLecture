@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.practice05_sdcard"
+        applicationId "com.example.sdcardtest"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1

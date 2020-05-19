@@ -70,19 +70,9 @@ public class MainActivity extends AppCompatActivity {
         이 방식으로 만들어진 각 디렉터리는 앱의 모든 외부 저장소 파일을 캡슐화하는 상위 디렉터리에 추가되며
         이러한 파일은 사용자가 앱을 제거할 때 시스템에서 정리됩니다.*/
 
-
-
-
-
-
-
-
-
-
-
         // 외부 저장소까지의 경로 구하기
         File file = Environment.getExternalStorageDirectory();
-        String absolutePath = file.getAbsolutePath();
+        final String absolutePath = file.getAbsolutePath();
 
         // 패키지명 구하기
         String packagePath = getPackageName();
@@ -99,15 +89,15 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "외부 저장장치 연결됨.", Toast.LENGTH_SHORT).show();
 
 //                File f1 = getExternalFilesDir();
-                File file = new File("/sdcard/testFile.txt");
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                File file = new File(path+"testFile.txt");
+//                try {
+//                    file.createNewFile();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
                 try {
-                    FileOutputStream fos = new FileOutputStream(file, false);
+                    FileOutputStream fos = new FileOutputStream("/sdcard/sd_txt.txt");
                     fos.write(data.getBytes());
                     fos.close();
                 } catch (FileNotFoundException e) {
@@ -177,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return file;
     }
-
-
 
 
     // 외부 저장소 경로를 있는지 확인하고, 없으면 생성한다.

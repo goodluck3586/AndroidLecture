@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/practice03_rawfolder" />
             <option value="$PROJECT_DIR$/practice04_permission" />
             <option value="$PROJECT_DIR$/practice05_sdcard" />
+            <option value="$PROJECT_DIR$/sdcardtest" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
