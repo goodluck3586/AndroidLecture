@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnVIBRATE;
     TextView textView;
 
-    // 체크할 권한 목록
+    //region 체크할 권한 목록
     String[] permissionList = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_SMS,
             Manifest.permission.SEND_SMS
     };
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +48,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        checkPermission();
-    }
-
-    // 권한 체크 메소드
-    private void checkPermission(){
-        // permissionList의 권한의 허용 여부 체크
+        // permissionList의 권한 요청
         ActivityCompat.requestPermissions(this, permissionList, 0);
-//        requestPermissions(permissionList, 0);
     }
 
-    // 권한 허용 여부가 완료되면 호출되는 메소드(권한들의 허용 여부 체크)
+    // 권한 요청 후 호출되는 메소드
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    FileOutputStream outFs = new FileOutputStream("/sdcard/sd_text.txt");
+
+                    FileOutputStream outFs = new FileOutputStream(Environment.getExternalStorageDirectory().getAbsolutePath()+"/sd_text2.txt");
                     String str = textView.getText().toString();
                     outFs.write(str.getBytes());
                     outFs.close();
