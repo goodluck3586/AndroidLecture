@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // SecondActivity에서 setResult()로 resultCode와 인텐트를 돌려주면 실행되는 메소드
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

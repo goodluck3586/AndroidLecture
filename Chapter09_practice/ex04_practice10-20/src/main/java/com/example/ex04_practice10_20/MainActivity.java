@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(Intent.ACTION_DIAL, uri);
                         startActivity(intent);
                         break;
+                        // 전화번호부 보여주기
+//                    case R.id.btnDial:
+//                        uri = Uri.parse("content://contacts/people");
+//                        intent = new Intent(Intent.ACTION_VIEW, uri);
+//                        startActivity(intent);
+//                        break;
                     case R.id.btnWeb:
                         uri = Uri.parse("http://www.naver.com");
                         intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -72,5 +78,14 @@ public class MainActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(listener);
         btnSms.setOnClickListener(listener);
         btnPhoto.setOnClickListener(listener);
+
+        findViewById(R.id.btnSecondActivity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("com.example.ex04_practice10_20.ACTION_VIEW");
+                startActivity(intent);  // 이 함수가 Intent를 발생시킬 때, 자동으로 android.intent.category.DEFAULT를 추가함.
+            }
+        });
     }
 }

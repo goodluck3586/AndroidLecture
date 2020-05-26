@@ -20,10 +20,13 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.layout_result);
         btnReturn = findViewById(R.id.btnReturn);
 
+        // MainActivity에서 넘어온 intent 받아서 저장하기
         Intent intent = getIntent();    // MainActivity에서 보낸 인텐트 가져오기
         String[] imageNames = intent.getStringArrayExtra("nameData");   // 이미지 이름 배열 가져오기
         int[] voteResult = intent.getIntArrayExtra("voteData");         // 투표 결과 가져오기
 
+        //region TextView와 RatingBar 객체들을 참조변수에 담기
+        // 참조변수 배열
         TextView[] textViews = new TextView[imageNames.length];     // 이미지 이름을 표시할 TextView 배열 생성
         RatingBar[] ratingBars = new RatingBar[voteResult.length];  // RationBar 배열 생성
 
@@ -36,8 +39,9 @@ public class ResultActivity extends AppCompatActivity {
             textViews[i] = findViewById(textViewIds[i]);
             ratingBars[i] = findViewById(ratingBarIds[i]);
         }
+        //endregion
 
-        // TextView에 이미지 이름, RatingBar에 투표 결과 출력
+        // TextView에 이미지의 이름, RatingBar에 투표 결과 출력하기
         for(int i=0; i<voteResult.length; i++){
             textViews[i].setText(imageNames[i]);
             ratingBars[i].setRating((float)voteResult[i]);

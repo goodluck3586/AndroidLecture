@@ -42,4 +42,12 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="사진 찍기"/>
+
+    <Button
+        android:id="@+id/btnSecondActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="암시적 인텐트로 다른 Activity 실행"
+        android:textSize="16sp"
+        android:visibility="invisible" />
 </LinearLayout>

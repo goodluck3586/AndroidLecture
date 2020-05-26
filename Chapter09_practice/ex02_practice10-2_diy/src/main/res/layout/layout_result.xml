@@ -21,7 +21,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
@@ -53,7 +53,8 @@
 
             <RatingBar
                 android:id="@+id/rbar1"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                android:numStars="5"
+                style="@style/Widget.AppCompat.RatingBar.Small" />
         </TableRow>
 
         <TableRow
@@ -70,7 +71,8 @@
 
             <RatingBar
                 android:id="@+id/rbar2"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -87,7 +89,8 @@
 
             <RatingBar
                 android:id="@+id/rbar3"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -104,7 +107,8 @@
 
             <RatingBar
                 android:id="@+id/rbar4"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -121,7 +125,8 @@
 
             <RatingBar
                 android:id="@+id/rbar5"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -138,7 +143,8 @@
 
             <RatingBar
                 android:id="@+id/rbar6"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -155,7 +161,8 @@
 
             <RatingBar
                 android:id="@+id/rbar7"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -172,7 +179,8 @@
 
             <RatingBar
                 android:id="@+id/rbar8"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow
@@ -189,7 +197,8 @@
 
             <RatingBar
                 android:id="@+id/rbar9"
-                style="@style/Widget.AppCompat.RatingBar.Indicator" />
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:numStars="5" />
         </TableRow>
 
         <TableRow>

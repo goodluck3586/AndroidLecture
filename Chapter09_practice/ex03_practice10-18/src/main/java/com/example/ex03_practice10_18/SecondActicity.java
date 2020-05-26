@@ -16,9 +16,11 @@ public class SecondActicity extends AppCompatActivity {
 
         Button btnReturn = findViewById(R.id.btnReturn);
 
+        // MainActivity 에서 보낸 Intent 객체 얻어서 필요한 데이터 꺼내기
         Intent inIntent = getIntent();
         final int hap = inIntent.getIntExtra("Num1", 0) + inIntent.getIntExtra("Num2", 0);
 
+        // MainActivity로 돌려보낼 데이터를 Intent에 담아서 보내기
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
