@@ -38,10 +38,13 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 android.R.layout.simple_list_item_multiple_choice,
                 dataArr);
-//        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);      //
 
         // ListView에 ArrayAdapter 연결
         listView.setAdapter(adapter);
+
+        // 체크박스 선택모드 세팅
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView.getCheckedItemPositions(); // 선택된 아이템의 정보를 SparseBooleanArrays 객체로 받기
 
         // ListView의 Item을 클릭하면 발생하는 이벤트 처리
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

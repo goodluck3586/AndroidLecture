@@ -1,7 +1,9 @@
-package com.example.ex03_listview03_addmodifydelete;
+package com.example.ex04_listview03_addmodifydelete2;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
          */
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_list_item_single_choice,
+                android.R.layout.simple_list_item_multiple_choice,
                 arrayList);
 
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         // ListView에 ArrayAdapter 연결
         listView.setAdapter(adapter);
@@ -68,37 +70,50 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final int checkedIndex = listView.getCheckedItemPosition();   // 체크된 아이템 인덱스 저장
+                final SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();   // 체크된 아이템 인덱스 저장
+                int count = adapter.getCount();               // 아이템 개수
 
                 switch (v.getId()){
                     case R.id.btnAdd:
-                        int count = adapter.getCount();               // 아이템 개수
                         arrayList.add("리스트 데이터"+(count+1));     // 아이템 추가
                         break;
 
                     case R.id.btnModify:
                         final EditText editText = new EditText(getApplicationContext());
-                        new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("리스트 아이템 수정")
-                            .setMessage("현재 데이터 : " + arrayList.get(checkedIndex))
-                            .setIcon(R.mipmap.ic_launcher)
-                            .setCancelable(false)
-                            .setView(editText)
-                            .setPositiveButton("수정", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    arrayList.set(checkedIndex, editText.getText().toString());
-                                }
-                            })
-                            .setNegativeButton("취소", null)
-                            .show();
+                        for(int i=0; i<count; i++){
+                            if(checkedItemPositions.size() > 1){
+                                Log.d("checkedItemPositions", "하나만 선택하세요.");
+//                                listView.clearChoices();    // 모든 체크박스 해제
+                            }else{
+                                final int index = i;
+                                new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("리스트 아이템 수정")
+                                    .setMessage("현재 데이터 : " + arrayList.get(i))
+                                    .setIcon(R.mipmap.ic_launcher)
+                                    .setCancelable(false)
+                                    .setView(editText)
+                                    .setPositiveButton("수정", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            arrayList.set(index, editText.getText().toString());
+                                        }
+                                    })
+                                    .setNegativeButton("취소", null)
+                                    .show();
+                            }
+                        }
+
                         break;
 
                     case R.id.btnDelete:
-                        arrayList.remove(checkedIndex);         // 선택 아이템 삭제
-                        listView.clearChoices();                // listView 선택 초기화
+                        for(int i=count-1; i>=0; i--){          // remove() 함수를 호출하면 아이템이 삭제되면서 삭제 위치의 뒤에 있던 아이템들의 position이 앞으로 이동하게 되고 아이템의 갯수가 줄어듭니다. 그러면 당연히 의도하지 않은 아이템이 삭제되거나, for 루프가 줄어든 아이템 갯수보다 많이 실행되는 문제가 발생
+                            if(checkedItemPositions.get(i))
+                                arrayList.remove(i);
+                        }
+
                         break;
                 }
+                listView.clearChoices();                // listView 선택 상태 초기화
                 adapter.notifyDataSetChanged();         // listView 갱신
             }
         };
