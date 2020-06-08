@@ -1,0 +1,4 @@
+rootProject.name='TestProject'
+include ':app'
+include ':ex06_listview_customview'
+include ':ex07_listview_customadapter'

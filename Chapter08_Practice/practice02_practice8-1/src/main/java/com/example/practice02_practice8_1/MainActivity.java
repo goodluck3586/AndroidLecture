@@ -91,17 +91,17 @@ public class MainActivity extends AppCompatActivity {
     // 지정된 날짜 이름의 파일에서 텍스트 읽어 반환하는 메소드
     private String readDiary1(String fileName) {
         String diaryStr = null;
-//        FileInputStream fis;                      // 파일을 읽어오는 스트림
-        try(FileInputStream fis = openFileInput(fileName)) {  // '연_월_일.txt' FileInputStream 생성, 파일이 없으면 IOException 발생
-            byte[] txt = new byte[500];             // byte[500] 배열 생성
-            fis.read(txt);                          // byte[500] 배열에 '연_월_일.txt' 파일 내용 읽어오기
-            diaryStr = new String(txt).trim();      // diaryStr에 읽어온 byte[]의 텍스트 저장(공백 제거)
-            btnWrite.setText("수정하기");           // 버튼의 텍스트를 "수정하기"로 변경
-        } catch(IOException e){                     // 읽어올 파일이 없어 IOException 이 발생한 경우
+//        FileInputStream fis;                                  // 파일을 읽어오는 스트림
+        try(FileInputStream fis = openFileInput(fileName)) {    // '연_월_일.txt' FileInputStream 생성, 파일이 없으면 IOException 발생
+            byte[] txt = new byte[500];                         // byte[500] 배열 생성
+            fis.read(txt);                                      // byte[500] 배열에 '연_월_일.txt' 파일 내용 읽어오기
+            diaryStr = new String(txt).trim();                  // diaryStr에 읽어온 byte[]의 텍스트 저장(공백 제거)
+            btnWrite.setText("수정하기");                       // 버튼의 텍스트를 "수정하기"로 변경
+        } catch(IOException e){                                 // 읽어올 파일이 없어 IOException 이 발생한 경우
             editText.setHint("일기 없음");
-            btnWrite.setText("새로 저장");          // 버튼의 텍스트를 "새로 저장"으로 변경
+            btnWrite.setText("새로 저장");                      // 버튼의 텍스트를 "새로 저장"으로 변경
         }
-        return diaryStr;                            // 읽어들인 문자열 반환, 없으면 null 반환
+        return diaryStr;                                        // 읽어들인 문자열 반환, 없으면 null 반환
     }
 
     // 스트림을 끝까지 읽는 메소드
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         try(FileReader fr = new FileReader(getFileStreamPath(fileName))) {  // '연_월_일.txt' FileInputStream 생성, 파일이 없으면 IOException 발생
             int i;
             StringBuilder sb = new StringBuilder();
-            while((i = fr.read()) != -1){           // read() 메서드로 파일을 읽는 경우 파일의 끝에 도달하면 -1을 반환한다.
+            while((i = fr.read()) != -1){               // read() 메서드로 파일을 읽는 경우 파일의 끝에 도달하면 -1을 반환한다.
                 sb.append((char)i);
             }
             diaryStr = sb.toString();

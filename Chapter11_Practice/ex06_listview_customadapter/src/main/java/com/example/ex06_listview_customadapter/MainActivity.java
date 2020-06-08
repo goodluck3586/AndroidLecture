@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     ListView listView;
 
+    // 리스트뷰에 표시할 데이터
     ArrayList<String> dataList = getArrayListData(50);   // 리스트뷰에 표시할 ArrayList
 
     @Override
@@ -37,15 +38,6 @@ public class MainActivity extends AppCompatActivity {
         // ListView에 ArrayAdapter 연결
         listView.setAdapter(adapter);
 
-    }
-
-    // ArrayList를 반환하는 함수
-    private ArrayList<String> getArrayListData(int count){
-        ArrayList<String> arrayList = new ArrayList<String>();
-        for (int i=0; i<count; i++){
-            arrayList.add("리스트 데이터 "+(i+1));
-        }
-        return arrayList;
     }
 
     public class CustomAdapter extends BaseAdapter {
@@ -105,4 +97,14 @@ public class MainActivity extends AppCompatActivity {
             return convertView;
         }
     }
+
+    // ArrayList를 반환하는 함수
+    private ArrayList<String> getArrayListData(int count){
+        ArrayList<String> arrayList = new ArrayList<String>();
+        for (int i=0; i<count; i++){
+            arrayList.add("리스트 데이터 "+(i+1));
+        }
+        return arrayList;
+    }
+
 }

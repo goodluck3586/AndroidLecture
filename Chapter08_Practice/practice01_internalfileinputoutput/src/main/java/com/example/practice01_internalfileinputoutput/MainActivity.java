@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         };
         //endregion
 
-        btnWrite.setOnClickListener(listener1);
-        btnRead.setOnClickListener(listener1);
+        btnWrite.setOnClickListener(listener2);
+        btnRead.setOnClickListener(listener2);
     }
 }
