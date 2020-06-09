@@ -58,6 +58,7 @@ class CustomAdapter extends BaseAdapter {
         Button btnModify = convertView.findViewById(R.id.btnRowModify);
         Button btnDelete = convertView.findViewById(R.id.btnRowDelete);
 
+        //region btnModify 버튼 이벤트 처리
         btnModify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +80,9 @@ class CustomAdapter extends BaseAdapter {
                     .show();
             }
         });
+        //endregion
 
+        //region btnDelete 버튼 이벤트 처리
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +102,7 @@ class CustomAdapter extends BaseAdapter {
                     .show();
             }
         });
+        //endregion
 
         return convertView;
     }
