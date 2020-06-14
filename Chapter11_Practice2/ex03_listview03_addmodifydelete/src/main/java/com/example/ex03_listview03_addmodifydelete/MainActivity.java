@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(listener);
         btnModify.setOnClickListener(listener);
         btnDelete.setOnClickListener(listener);
-
     }
 
     // ArrayList를 반환하는 함수
