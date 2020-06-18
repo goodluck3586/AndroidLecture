@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
         //endregion
 
+        // seekbar를 조작하면 TextView에 "진행률 00%" 문자열 표시
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -68,9 +69,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 스레드 시작 버튼 클릭 이벤트 설정
-        //region ProgressBar1, 2는 동작하지 않는다.
-        /*btnThread.setOnClickListener(new View.OnClickListener() {
+        //스레드 시작 버튼 클릭 이벤트 설정 ProgressBar1, 2는 동작하지 않는다.
+        //click_btnThreadDoNotUseThread();
+
+        //스레드 시작 버튼 클릭 이벤트 설정 Thread를 이용해 ProgressBar1, 2 모두 동작
+        click_btnThreadUseThread();
+    }
+
+    private void click_btnThreadDoNotUseThread(){
+        btnThread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for(int i=0; i<100; i++){
@@ -79,12 +86,32 @@ public class MainActivity extends AppCompatActivity {
                     SystemClock.sleep(100);
                 }
             }
-        });*/
-        //endregion
+        });
+    }
 
+    private void click_btnThreadUseThread(){
         btnThread.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Thread(){
+                    @Override
+                    public void run() {
+                        for(int i=progressBar1.getProgress(); i<100; i+=2){
+                            progressBar1.setProgress(progressBar1.getProgress()+2);
+                            SystemClock.sleep(100);
+                        }
+                    }
+                }.start();
+
+                new Thread(){
+                    @Override
+                    public void run() {
+                        for(int i=progressBar2.getProgress(); i<100; i++){
+                            progressBar2.setProgress(progressBar2.getProgress()+1);
+                            SystemClock.sleep(100);
+                        }
+                    }
+                }.start();
 
             }
         });
