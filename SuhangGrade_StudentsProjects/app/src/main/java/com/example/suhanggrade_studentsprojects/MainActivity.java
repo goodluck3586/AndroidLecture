@@ -1,91 +1,105 @@
 package com.example.suhanggrade_studentsprojects;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button addBtn, delBtn, editBtn;
-    TextView textView;
+    TextView textViewSelected;
     ListView listView;
-    int selectItem;
-
+    Button btnAdd, btnMotify, btnDelete;
+    int selectedNum = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("2213은종엽");
 
-        final ArrayList<String> arr = new ArrayList<String>();
-        arr.add("listItem 1");
-        arr.add("listItem 2");
-                arr.add("listItem 3");
-        arr.add("listItem 4");
-        arr.add("listItem 5");
-                final ArrayAdapter<String> ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, arr);
-                listView = findViewById(R.id.listView);
-                addBtn = findViewById(R.id.addBtn);
-                editBtn = findViewById(R.id.editBtn);
-                delBtn = findViewById(R.id.delBtn);
-                textView = findViewById(R.id.textView);
-                listView.setAdapter(ad);
-                listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem = position;
-                textView.setText(arr.get(position));
+        textViewSelected = findViewById(R.id.textViewSelected);
+        listView = findViewById(R.id.listView);
+        btnAdd = findViewById(R.id.btnAdd);
+        btnMotify = findViewById(R.id.btnModify);
+        btnDelete = findViewById(R.id.btnDelete);
 
+        final ArrayList<String> dataList = new ArrayList<>();
+        for (int i=1; i<=5; i++) {
+            dataList.add("리스트 데이터 "+i);
+        }
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_single_choice, dataList);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                textViewSelected.setText(dataList.get(position));
+                selectedNum = position;
             }
         });
-        addBtn.setOnClickListener(new View.OnClickListener() {
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arr.add("listItem " + (arr.size() + 1));
-                ad.notifyDataSetChanged();
+                dataList.add("리스트 에어터 "+(dataList.size()+1));
+                adapter.notifyDataSetChanged();
             }
         });
-        delBtn.setOnClickListener(new View.OnClickListener() {
+
+        btnMotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arr.remove(selectItem);
-                ad.notifyDataSetChanged();
-            }
-        });
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final EditText editText = new EditText(MainActivity.this);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder
-                        .setTitle("리스트아이템 수정")
-                        .setMessage("현재 데이터 - " + arr.get(selectItem))
+                if(selectedNum == -1) {
+                    Toast.makeText(MainActivity.this, "항목을 선택해 주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                final EditText editText = new EditText(getApplicationContext());
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("리스트 아이템 수정")
+                        .setMessage("현재 데이터 : "+dataList.get(selectedNum))
+                        .setIcon(R.mipmap.ic_launcher_round)
+                        .setCancelable(false)
                         .setView(editText)
-                        .setNegativeButton("취소", null)
-                        .setPositiveButton("수정", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                textView.setText(editText.getText().toString());
-                                arr.set(selectItem, editText.getText().toString());
-                                ad.notifyDataSetChanged();
+                                dataList.set(selectedNum, editText.getText().toString());
+                                adapter.notifyDataSetChanged();
                             }
                         })
+                        .setNegativeButton("취소", null)
                         .show();
+            }
+        });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selectedNum == -1) {
+                    Toast.makeText(MainActivity.this, "항목을 선택해 주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                dataList.remove(selectedNum);
+                adapter.notifyDataSetChanged();
+                listView.setItemChecked(selectedNum, false);
+                textViewSelected.setText("Selected Item Content");
+                selectedNum = -1;
             }
         });
     }

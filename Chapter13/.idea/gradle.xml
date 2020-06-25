@@ -13,6 +13,9 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ex01_practice13-1" />
             <option value="$PROJECT_DIR$/ex02_thread" />
+            <option value="$PROJECT_DIR$/ex03_thread" />
+            <option value="$PROJECT_DIR$/ex04_thread" />
+            <option value="$PROJECT_DIR$/ex05_handler" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

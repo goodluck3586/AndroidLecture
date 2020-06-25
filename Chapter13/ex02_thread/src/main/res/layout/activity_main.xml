@@ -50,14 +50,16 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100" />
+        android:max="100"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100" />
+        android:max="100"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/btnThread"
@@ -65,5 +67,6 @@
         android:layout_height="wrap_content"
         android:text="스레드 시작"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:visibility="visible" />
 </LinearLayout>

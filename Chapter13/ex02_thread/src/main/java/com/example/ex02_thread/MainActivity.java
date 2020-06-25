@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         //스레드 시작 버튼 클릭 이벤트 설정 Thread를 이용해 ProgressBar1, 2 모두 동작
         click_btnThreadUseThread();
+
     }
 
     private void click_btnThreadDoNotUseThread(){
