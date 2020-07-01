@@ -1,0 +1,3 @@
+rootProject.name='Chapter14'
+include ':app'
+include ':ex01_mediastore'
