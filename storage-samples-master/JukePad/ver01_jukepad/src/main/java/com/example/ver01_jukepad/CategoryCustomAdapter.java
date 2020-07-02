@@ -58,6 +58,7 @@ class CategoryCustomAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+        //endregion
 
         btnCategoryItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

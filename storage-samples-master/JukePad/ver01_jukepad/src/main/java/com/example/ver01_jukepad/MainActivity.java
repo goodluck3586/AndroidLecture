@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         btnCheckFever = findViewById(R.id.btnCheckFever);
         arrayList = new ArrayList<String>();
 
-        Log.d("JukePadTag", "onCreate() 시작");
+        //Log.d("JukePadTag", "onCreate() 시작");
 
         //region 초기에 ListView에 category를 표시하기 위해 Database에서 category 데이터를 가져와서 dataList_category에 저장
         try {
@@ -63,9 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new CategoryCustomAdapter(this, R.layout.listview_item_category, arrayList);
         listView.setAdapter(adapter);
-
-        //ListView를 Context 메뉴로 등록
-        registerForContextMenu(listView);
 
         //region ADD 버튼 클릭 이벤트 처리(카테고리 추가)
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -113,16 +110,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //endregion
+
+        //ListView를 Context 메뉴로 등록
+        registerForContextMenu(listView);
     }
 
     // Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
         //res폴더의 menu플더안에 xml로 MenuItem추가하기.
         //menu_category.xml 파일을 java 객체로 인플레이트(inflate)해서 menu객체에 추가
         getMenuInflater().inflate(R.menu.menu_category, menu);
-
-        super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     // Context 메뉴로 등록한 View(여기서는 ListView)가 클릭되었을 때 자동으로 호출되는 메소드
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         switch( item.getItemId() ){
             case R.id.modify_category:
                 // DB Update 작업
-                Toast.makeText(this, arrayList.get(position)+" Modify", Toast.LENGTH_SHORT).show();
+
 
                 final EditText editText = new EditText(MainActivity.this);
                 new AlertDialog.Builder(MainActivity.this)
@@ -171,10 +171,11 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .setNegativeButton("취소", null)
                         .show();
+                Toast.makeText(this, arrayList.get(position)+" category modified", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delete_category:
                 // DB Delete 작업
-                Toast.makeText(this, arrayList.get(position)+" Delete", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, arrayList.get(position)+" category deleted.", Toast.LENGTH_SHORT).show();
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Delete Category")
                         .setMessage("정말로 삭제하시겠습니까?")

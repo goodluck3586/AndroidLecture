@@ -1,5 +1,6 @@
 package com.example.ver01_jukepad;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,12 +9,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -57,6 +60,7 @@ public class PlaySoundActivity extends AppCompatActivity {
         try {
             dbHelper = new DBHelper(this);
             db = dbHelper.getWritableDatabase();
+
             String sql = String.format("SELECT button_name, audio_id, audio_filename FROM tb_sound_button WHERE category_name = '%s'", categoryName);
             Cursor cursor = db.rawQuery(sql, null);
 
@@ -89,6 +93,9 @@ public class PlaySoundActivity extends AppCompatActivity {
             }
         });
         //endregion
+
+        //ListView를 Context 메뉴로 등록
+        registerForContextMenu(listView);
     }
 
     @Override
@@ -100,7 +107,7 @@ public class PlaySoundActivity extends AppCompatActivity {
 
         if(resultCode == RESULT_OK){
             audioFileName = data.getStringExtra("DISPLAY_NAME");
-            Toast.makeText(this, audioFileName, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, audioFileName, Toast.LENGTH_SHORT).show();
 
             hashMap = selectedAudioFile(audioFileName);
 
@@ -183,5 +190,99 @@ public class PlaySoundActivity extends AppCompatActivity {
         cursor.close();
 
         return hashMap;
+    }
+
+    // Context 메뉴로 등록한 View(여기서는 ListView)가 처음 클릭되어 만들어질 때 호출되는 메소드
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        //res폴더의 menu플더안에 xml로 MenuItem추가하기.
+        //menu_category.xml 파일을 java 객체로 인플레이트(inflate)해서 menu객체에 추가
+        getMenuInflater().inflate(R.menu.menu_category, menu);
+    }
+
+    // Context 메뉴로 등록한 View(여기서는 ListView)가 클릭되었을 때 자동으로 호출되는 메소드
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        //AdapterContextMenuInfo : AdapterView가 onCreateContextMenu()를 실행할 때, 추가적인 menu 정보를 관리하는 클래스
+        //ContextMenu로 등록된 AdapterView(여기서는 Listview)의 선택된 항목에 대한 정보를 관리하는 클래스
+        AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        final int position= info.position; //AdapterView안에서 ContextMenu를 보여주는 항목의 위치
+
+        //선택된 ContextMenu 아이템의 아이디로 구별하여 원하는 작업 수행
+        switch( item.getItemId() ){
+            case R.id.modify_category:
+                // DB Update 작업
+                final EditText editText = new EditText(PlaySoundActivity.this);
+                editText.setText(arrayList.get(position).get("button_name"));
+                new AlertDialog.Builder(PlaySoundActivity.this)
+                        .setTitle("Modify Sound Button")
+                        .setMessage("수정할 버튼 이름을 입력하세요.")
+                        .setCancelable(false)
+                        .setView(editText)
+                        .setPositiveButton("수정", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // DB에 Insert
+                                try {
+                                    dbHelper = new DBHelper(getApplicationContext());
+                                    db = dbHelper.getWritableDatabase();
+
+                                    String sql = String.format(
+                                            "UPDATE tb_sound_button SET button_name='%s' WHERE button_name='%s'",
+                                            editText.getText().toString(),
+                                            arrayList.get(position).get("button_name"));
+                                    db.execSQL(sql);
+                                }catch (Exception e){
+                                    Log.d("DatabaseError",e.toString());
+                                }finally {
+                                    db.close();
+                                }
+                                // ListView에 표시
+                                HashMap<String, String> hm = new HashMap<String, String>();
+                                hm.put("button_name", editText.getText().toString());
+                                hm.put("audio_id", arrayList.get(position).get("audio_id"));
+                                hm.put("audio_path", arrayList.get(position).get("audio_path"));
+                                arrayList.set(position, hm);
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("취소", null)
+                        .show();
+                Toast.makeText(this, arrayList.get(position).get("button_name")+" button modified.", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.delete_category:
+                // DB Delete 작업
+                Toast.makeText(this, arrayList.get(position).get("button_name")+" button deleted.", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(PlaySoundActivity.this)
+                        .setTitle("Delete Sound Button")
+                        .setMessage("정말로 삭제하시겠습니까?")
+                        .setCancelable(false)
+                        .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // DB에 Insert
+                                try {
+                                    dbHelper = new DBHelper(getApplicationContext());
+                                    db = dbHelper.getWritableDatabase();
+
+                                    String sql = String.format("DELETE FROM tb_sound_button WHERE button_name='%s'", arrayList.get(position).get("button_name"));
+                                    db.execSQL(sql);
+                                }catch (Exception e){
+                                    Log.d("DatabaseError",e.toString());
+                                }finally {
+                                    db.close();
+                                }
+                                // ListView에 표시
+                                arrayList.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("취소", null)
+                        .show();
+                break;
+        }
+        return true;
     }
 }
