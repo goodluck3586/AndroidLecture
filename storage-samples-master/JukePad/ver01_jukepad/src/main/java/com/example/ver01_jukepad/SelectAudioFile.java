@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SelectAudioFile extends AppCompatActivity {
 
@@ -36,7 +37,8 @@ public class SelectAudioFile extends AppCompatActivity {
     Button btnSelect, btnSearch;
     ListView listView;
     ArrayList<HashMap<String, String>> audioDataList;
-    ArrayList<String> arrayList;
+    List<String> dataList, arrayList;
+    ArrayAdapter adapter;
     MediaPlayer mediaPlayer;
 
     //region 체크할 권한 목록
@@ -62,28 +64,21 @@ public class SelectAudioFile extends AppCompatActivity {
         // permissionList의 권한 요청
         ActivityCompat.requestPermissions(this, permissionList, 0);
 
-        audioDataList = readMediaStoreAudioFile();
+        audioDataList = readMediaStoreAudioFile(null);
 
-//        String[] keys = {"name", "title"};
-//        int[] ids = {android.R.id.text1, android.R.id.text2};
-//        SimpleAdapter adapter = new SimpleAdapter(this, audioDataList, android.R.layout.simple_list_item_2, keys, ids);
+        /*String[] keys = {"name", "title"};
+        int[] ids = {android.R.id.text1, android.R.id.text2};
+        SimpleAdapter adapter = new SimpleAdapter(this, audioDataList, android.R.layout.simple_list_item_2, keys, ids);*/
 
-        arrayList = readMediaStoreAudioFileName();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_single_choice, arrayList);
+        dataList = readMediaStoreAudioFileName(null);
+        arrayList = new ArrayList<String>();
+        arrayList.addAll(dataList);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_single_choice, dataList);
 
         // 라디오단추 선택모드 세팅
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         listView.setAdapter(adapter);
-
-        //region 오디오 파일 선택 -> Toast 띄우기
-        /*istView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(SelectAudioFile.this, arrayList.get(listView.getCheckedItemPosition()), Toast.LENGTH_SHORT).show();
-            }
-        });*/
-        //endregion
 
         //region 오디오 파일을 선택 -> 재생
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -122,16 +117,55 @@ public class SelectAudioFile extends AppCompatActivity {
                 finish();
             }
         });
+
+        // Search 버튼 클릭 이벤트 처리(해당 키워드를 포함하는 음원 리스트만 생성하여 보여줌)
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataList.clear();   // 리스트 내용 지우기
+
+                // 검색어가 없을 때는 모든 데이터를 보여준다.
+                if(editTextKeyword.getText().length() == 0){
+                    dataList.addAll(arrayList);
+                }else{
+                    // 리스트의 데이터 검색
+                    for(int i=0; i<arrayList.size(); i++){
+                        if(arrayList.get(i).toLowerCase().contains(editTextKeyword.getText().toString())){
+                            dataList.add(arrayList.get(i));
+                        }
+                    }
+                }
+                // 리스트 데이터가 변경되었으므로 아답터를 갱신하여 검색된 데이터를 화면에 보여준다.
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    private ArrayList<String> readMediaStoreAudioFileName(){
+    private ArrayList<String> readMediaStoreAudioFileName(String keyword){
         ArrayList<String> arrayList = new ArrayList<String>();
-        Cursor cursor = SelectAudioFile.this.getContentResolver().query(
+        Cursor cursor;
+
+        if(keyword == null){
+            String selection = null;
+            String[] selectionArgs = null;
+
+            cursor = SelectAudioFile.this.getContentResolver().query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Audio.Media.DISPLAY_NAME},
-                null,
-                null,
+                    selection,
+                    selectionArgs,
                 MediaStore.Audio.Media.DISPLAY_NAME + " ASC");
+        }else{
+            String selection = MediaStore.Audio.Media.DISPLAY_NAME + " LIKE ? ";
+            String[] selectionArgs = {"%"+keyword+"%"};
+
+            cursor = SelectAudioFile.this.getContentResolver().query(
+                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    new String[]{MediaStore.Audio.Media.DISPLAY_NAME},
+                    selection,
+                    selectionArgs,
+                    MediaStore.Audio.Media.DISPLAY_NAME + " ASC");
+        }
 
         // cursor에 검색된 MediaStore.Audio 데이터가 없으면 return
         if (cursor == null || !cursor.moveToFirst()) {
@@ -151,7 +185,7 @@ public class SelectAudioFile extends AppCompatActivity {
         return arrayList;
     }
 
-    private ArrayList<HashMap<String, String>> readMediaStoreAudioFile() {
+    private ArrayList<HashMap<String, String>> readMediaStoreAudioFile(String keyword) {
         ArrayList<HashMap<String, String>> audioList = new ArrayList<HashMap<String, String>>();
         Uri externalUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;  // MediaStore.media-type.Media.EXTERNAL_CONTENT_URI
 
@@ -166,10 +200,6 @@ public class SelectAudioFile extends AppCompatActivity {
                 MediaStore.Audio.Media.DATA
         };
 
-        String selection = MediaStore.Audio.Media.DISPLAY_NAME + " like ? ";
-        String[] selectionArgs = new String[]{"%아이유%"};
-        String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME + " ASC";
-
         /**
          실질적으로 쿼리하는 코드
          Uri: 찾고자하는 데이터의 Uri
@@ -181,12 +211,25 @@ public class SelectAudioFile extends AppCompatActivity {
          위의 조건으로 쿼리한 데이터가 있다면 Cursor로 결과를 순회(Loop)할 수 있다.
          */
         try{
-            Cursor cursor = SelectAudioFile.this.getContentResolver().query(
-                    externalUri,
-                    projection,
-                    null,
-                    null,
-                    sortOrder);
+            Cursor cursor;
+            if(keyword==null){
+                cursor = SelectAudioFile.this.getContentResolver().query(
+                        externalUri,
+                        projection,
+                        null,
+                        null,
+                        MediaStore.Audio.Media.DISPLAY_NAME + " ASC");
+            }else{
+                String selection = MediaStore.Audio.Media.DISPLAY_NAME + " LIKE ? ";
+                String[] selectionArgs = {"%"+keyword+"%"};
+
+                cursor = SelectAudioFile.this.getContentResolver().query(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        new String[]{MediaStore.Audio.Media.DISPLAY_NAME},
+                        selection,
+                        selectionArgs,
+                        MediaStore.Audio.Media.DISPLAY_NAME + " ASC");
+            }
 
             // MediaStore.Audio 데이터가 없으면 return
             if (cursor == null || !cursor.moveToFirst()) {
@@ -240,7 +283,7 @@ public class SelectAudioFile extends AppCompatActivity {
                     strDeniedList += permissions[i]+'\n';
                 }
             }
-            Toast.makeText(SelectAudioFile.this, strGrantedList, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SelectAudioFile.this, strGrantedList, Toast.LENGTH_SHORT).show();
         }
     }
 }

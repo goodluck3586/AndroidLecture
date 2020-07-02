@@ -6,6 +6,6 @@
 
         <bitmap
             android:gravity="center"
-            android:src="@drawable/sound_effect_logo2"/>
+            android:src="@drawable/logo"/>
     </item>
 </layer-list>

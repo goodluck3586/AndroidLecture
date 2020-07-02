@@ -9,12 +9,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.util.Locale;
+import java.util.Random;
 
 public class CheckFeverActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageView imageView;
     Button btnPass, btnStop, btnDistance, btnMask;
     TextToSpeech textToSpeech;
+    int[] okImages = {R.drawable.ok1, R.drawable.ok2, R.drawable.ok3, R.drawable.ok4};
+    int[] noImages = {R.drawable.no1, R.drawable.no2, R.drawable.no3, R.drawable.no4};
+    int[] maskImages = {R.drawable.mask1, R.drawable.mask2, R.drawable.mask3};
+    int[] stopCovid19Images = {R.drawable.stop_covid19_1, R.drawable.stop_covid19_2, R.drawable.stop_covid19_3, R.drawable.stop_covid19_4, R.drawable.stop_covid19_5};
+    int[] socialDistancingImages = {R.drawable.social_distancing1, R.drawable.social_distancing2, R.drawable.social_distancing3};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,9 @@ public class CheckFeverActivity extends AppCompatActivity implements View.OnClic
         });
         //endregion
 
+        // 초기 이미지 세팅
+        imageView.setImageResource(getRandomImageResource(stopCovid19Images));
+
         btnPass.setOnClickListener(this);
         btnStop.setOnClickListener(this);
         btnDistance.setOnClickListener(this);
@@ -47,21 +56,26 @@ public class CheckFeverActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnPass:
-                imageView.setImageResource(R.drawable.good2);
+                imageView.setImageResource(getRandomImageResource(okImages));
                 textToSpeech.speak("통과", TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.btnStop:
-                imageView.setImageResource(R.drawable.omg);
+                imageView.setImageResource(getRandomImageResource(noImages));
                 textToSpeech.speak("발열 있음", TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.btnDistance:
-                imageView.setImageResource(R.drawable.social_distancing);
+                imageView.setImageResource(getRandomImageResource(socialDistancingImages));
                 textToSpeech.speak("사회적 거리두기를 지켜주세요", TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.btnMask:
-                imageView.setImageResource(R.drawable.mask);
+                imageView.setImageResource(getRandomImageResource(maskImages));
                 textToSpeech.speak("마스크를 써주세요", TextToSpeech.QUEUE_FLUSH, null);
                 break;
         }
+    }
+
+    private int getRandomImageResource(int[] imageArray){
+        Random random = new Random();
+        return imageArray[random.nextInt(imageArray.length)];
     }
 }

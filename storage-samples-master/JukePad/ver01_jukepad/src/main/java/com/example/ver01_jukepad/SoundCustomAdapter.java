@@ -79,6 +79,7 @@ class SoundCustomAdapter extends BaseAdapter {
                 mediaPlayer.start();
             }
         });
+        //endregion
 
         btnSoundItem.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
