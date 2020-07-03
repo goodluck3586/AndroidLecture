@@ -138,9 +138,8 @@ public class MainActivity extends AppCompatActivity {
         switch( item.getItemId() ){
             case R.id.modify_category:
                 // DB Update 작업
-
-
                 final EditText editText = new EditText(MainActivity.this);
+                editText.setText(arrayList.get(position));
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Modify Category")
                         .setMessage("수정할 카테고리 이름을 입력하세요.")

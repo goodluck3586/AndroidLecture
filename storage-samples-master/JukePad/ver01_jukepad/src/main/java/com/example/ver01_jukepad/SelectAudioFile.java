@@ -36,7 +36,7 @@ public class SelectAudioFile extends AppCompatActivity {
     EditText editTextKeyword;
     Button btnSelect, btnSearch;
     ListView listView;
-    ArrayList<HashMap<String, String>> audioDataList;
+    ArrayList<HashMap<String, String>> audioDataList, audioArrayList;
     List<String> dataList, arrayList;
     ArrayAdapter adapter;
     MediaPlayer mediaPlayer;
@@ -65,6 +65,8 @@ public class SelectAudioFile extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, permissionList, 0);
 
         audioDataList = readMediaStoreAudioFile(null);
+        audioArrayList = new ArrayList<HashMap<String, String>>();
+        audioArrayList.addAll(audioDataList);
 
         /*String[] keys = {"name", "title"};
         int[] ids = {android.R.id.text1, android.R.id.text2};
@@ -106,32 +108,45 @@ public class SelectAudioFile extends AppCompatActivity {
         });
         //endregion
 
-        // SELECT 버튼 클릭 이벤트 처리
+        //region SELECT 버튼 클릭 이벤트 처리
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PlaySoundActivity.class);
                 // category_name, button_name, audio_id, audio_filename
-                intent.putExtra("DISPLAY_NAME", arrayList.get(listView.getCheckedItemPosition()));
+                intent.putExtra("DISPLAY_NAME", dataList.get(listView.getCheckedItemPosition()));
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
+        //endregion
 
-        // Search 버튼 클릭 이벤트 처리(해당 키워드를 포함하는 음원 리스트만 생성하여 보여줌)
+        //region Search 버튼 클릭 이벤트 처리(해당 키워드를 포함하는 음원 리스트만 생성하여 보여줌)
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataList.clear();   // 리스트 내용 지우기
+                dataList.clear();       // 리스트 내용 지우기
+                audioDataList.clear();
 
                 // 검색어가 없을 때는 모든 데이터를 보여준다.
                 if(editTextKeyword.getText().length() == 0){
                     dataList.addAll(arrayList);
+                    audioDataList.addAll(audioArrayList);
                 }else{
                     // 리스트의 데이터 검색
                     for(int i=0; i<arrayList.size(); i++){
                         if(arrayList.get(i).toLowerCase().contains(editTextKeyword.getText().toString())){
                             dataList.add(arrayList.get(i));
+
+                            HashMap<String, String> hashMap = new HashMap<String, String>();
+                            hashMap.put("id", audioArrayList.get(i).get("id"));
+                            hashMap.put("name", audioArrayList.get(i).get("name"));
+                            hashMap.put("mime_type", audioArrayList.get(i).get("mime_type"));
+                            hashMap.put("album", audioArrayList.get(i).get("album"));
+                            hashMap.put("artist", audioArrayList.get(i).get("artist"));
+                            hashMap.put("title", audioArrayList.get(i).get("title"));
+                            hashMap.put("data", audioArrayList.get(i).get("data"));
+                            audioDataList.add(hashMap);
                         }
                     }
                 }
@@ -139,8 +154,10 @@ public class SelectAudioFile extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+        //endregion
     }
 
+    // MediaStore Database에서 Audio File 찾아서 listview에 뿌릴 ArrayList<String> 반환
     private ArrayList<String> readMediaStoreAudioFileName(String keyword){
         ArrayList<String> arrayList = new ArrayList<String>();
         Cursor cursor;

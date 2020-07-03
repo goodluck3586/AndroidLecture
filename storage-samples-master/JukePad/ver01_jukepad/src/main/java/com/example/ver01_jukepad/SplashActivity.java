@@ -26,6 +26,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 2000);// 0.5초 정도 딜레이를 준 후 시작
+        }, 2000);// 2초 정도 딜레이를 준 후 시작
     }
 }
