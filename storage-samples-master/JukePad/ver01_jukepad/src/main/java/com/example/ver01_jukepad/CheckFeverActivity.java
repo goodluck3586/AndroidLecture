@@ -57,11 +57,11 @@ public class CheckFeverActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()){
             case R.id.btnPass:
                 imageView.setImageResource(getRandomImageResource(okImages));
-                textToSpeech.speak("통과", TextToSpeech.QUEUE_FLUSH, null);
+                textToSpeech.speak("정상 체온 입니다 통과하세요", TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.btnStop:
                 imageView.setImageResource(getRandomImageResource(noImages));
-                textToSpeech.speak("발열 있음", TextToSpeech.QUEUE_FLUSH, null);
+                textToSpeech.speak("발열이 있습니다", TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.btnDistance:
                 imageView.setImageResource(getRandomImageResource(socialDistancingImages));

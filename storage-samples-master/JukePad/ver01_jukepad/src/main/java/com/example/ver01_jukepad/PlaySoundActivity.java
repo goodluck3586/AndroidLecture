@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -82,6 +83,13 @@ public class PlaySoundActivity extends AppCompatActivity {
 
         adapter = new SoundCustomAdapter(this, R.layout.listview_item_category, arrayList);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(PlaySoundActivity.this, "hello world", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //region ADD 버튼 클릭 이벤트 처리
         btnAddSound.setOnClickListener(new View.OnClickListener() {

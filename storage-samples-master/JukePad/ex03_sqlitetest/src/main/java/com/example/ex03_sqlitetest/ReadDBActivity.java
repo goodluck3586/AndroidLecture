@@ -28,18 +28,18 @@ public class ReadDBActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read_d_b);
 
         listView = findViewById(R.id.listview);
-        String[] keys = {"category", "button_name"};
+        String[] keys = {"title", "contents"};
         int[] ids = {android.R.id.text1, android.R.id.text2};
 
         // DB Data 불러오기
         DBHelper helper = new DBHelper(this);
         SQLiteDatabase db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select category, button_name from tb_test", null);
+        Cursor cursor = db.rawQuery("select title, contents from tb_test", null);
 
         while (cursor.moveToNext()){
             HashMap<String, String> hashMap = new HashMap<String, String>();
-            hashMap.put("category", cursor.getString(0));
-            hashMap.put("button_name", cursor.getString(1));
+            hashMap.put("title", cursor.getString(0));
+            hashMap.put("contents", cursor.getString(1));
             arrayList.add(hashMap);
 //            Log.d("SQLiteData", cursor.getString(0) + ", " + cursor.getString(1));
         }

@@ -17,22 +17,22 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editTextCategory"
+        android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="category"
+        android:hint="Title"
         android:inputType="textPersonName"
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/editTextButtonName"
+        android:id="@+id/editTextContents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="button name"
+        android:hint="Contents"
         android:inputType="textPersonName"
         android:textSize="24sp" />
 

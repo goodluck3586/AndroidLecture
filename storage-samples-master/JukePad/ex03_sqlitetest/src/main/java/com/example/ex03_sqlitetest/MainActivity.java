@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editTextCategory, editTextButtonName;
+    EditText editTextTitle, editTextContents;
     Button btnAdd;
 
     DBHelper helper;    // 테이블 생성, 스키마 변경 등의 작업 처리
@@ -23,20 +23,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextCategory = findViewById(R.id.editTextCategory);
-        editTextButtonName = findViewById(R.id.editTextButtonName);
+        editTextTitle = findViewById(R.id.editTextTitle);
+        editTextContents = findViewById(R.id.editTextContents);
         btnAdd = findViewById(R.id.btnAdd);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String category = editTextCategory.getText().toString();
-                String button_name = editTextButtonName.getText().toString();
+                String title = editTextTitle.getText().toString();
+                String contents = editTextContents.getText().toString();
 
                 try{
                     helper = new DBHelper(getApplicationContext());
                     db = helper.getWritableDatabase();
-                    String sql=String.format("INSERT INTO tb_test (category, button_name) values ('%s', '%s')", category, button_name);
+                    String sql=String.format("INSERT INTO tb_test (title, contents) values ('%s', '%s')", title, contents);
                     db.execSQL(sql);    // insert, update, delete 문 실행, select문은 rawQuery()로 실행
                 }catch (Exception e){
                     Log.d("DatabaseError",e.toString());
