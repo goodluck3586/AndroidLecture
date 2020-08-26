@@ -2,6 +2,8 @@
 광주소프트웨어마이스터고 2020년 1학기 수업 코드
 
 ### Chapter05
+* Button 위젯 사용 방법
+    - 클릭 이벤트 처리
 ### Chapter06
 ### Chapter07
 ### Chapter08
