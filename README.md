@@ -5,7 +5,7 @@
 1. Button 위젯 사용 방법(다양한 클릭 이벤트 처리방법)
 
 ### Chapter06
-1. example6-1_textclolk
+1. example6-1_textclock
 2. example6-2_chromometer
 3. example6-3_countdowntimer
 4. example6-4_timepikerdatepicker
