@@ -3,7 +3,7 @@
 
 ### Chapter05
 1. Button 위젯 사용 방법
-    - 클릭 이벤트 처리
+ - 클릭 이벤트 처리
 ### Chapter06
 ### Chapter07
 ### Chapter08
