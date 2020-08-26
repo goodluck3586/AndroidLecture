@@ -1,4 +1,0 @@
-rootProject.name='AppProgrammingTest'
-include ':app'
-include ':testnum1'
-include ':testnum2'
