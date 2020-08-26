@@ -13,7 +13,6 @@ public class BootSpringBootApplication {
   public static void main(String[] args) {
     System.out.println("Hello, Honeymon");
   }
-
 }
 </code>
 </pre>
@@ -23,3 +22,12 @@ public class BootSpringBootApplication {
     System.out.println("Hello, Honeymon");
   }
 }
+
+[link keyword][id]
+
+[id]: URL "Optional Title here"
+
+// code
+Link: [Google][googlelink]
+
+[googlelink]: https://google.com "Go google"
