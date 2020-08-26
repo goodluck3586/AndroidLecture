@@ -31,3 +31,8 @@ public class BootSpringBootApplication {
 Link: [Google][googlelink]
 
 [googlelink]: https://google.com "Go google"
+
+
+사용문법: [Title](link)
+적용예: [Google](https://google.com, "google link")
+
