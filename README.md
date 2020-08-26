@@ -1,4 +1,5 @@
 # AndroidLecture
+광주소프트웨어마이스터고 2020년 1학기 수업 코드
 
 ### Chapter05
 ### Chapter06
