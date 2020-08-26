@@ -1,5 +1,7 @@
 # AndroidLecture
 
-> This is a first blockqute.
->	> This is a second blockqute.
->	>	> This is a third blockqute.
+This is a normal paragraph:
+
+    This is a code block.
+    
+end code block.
